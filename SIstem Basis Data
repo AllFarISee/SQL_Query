@@ -1,0 +1,35 @@
+create TABLE battery(
+	id INT NOT NULL AUTO_INCREMENT,
+	batt_type VARCHAR(100) NOT NULL,
+	brand varchar(255) NOT NULL,
+	quantity FLOAT(40) NOT NULL,
+	abnormal_history text,
+	PRIMARY KEY ( id )
+);
+
+insert into battery
+(batt_type, brand, quantity, abnormal_history)
+values
+('CR 2032L', 'Panasonic Industrial', 30000, 'High Induc Resistance'),
+('CR 2032L', 'Energizer', 5000, 'OCV Low'),
+('CR 2450', 'Mitsubishi', 12000, 'High Temp Pre Discharge'),
+('CR 1632', 'Varta', 20000, 'No Crimping'),
+('CR 2430', 'Panasonic Widening', 4000, 'Short After Vibration'),
+('CR 1616', 'No Brand', 3000, 'Sealant Out'),
+('CR 2032L', 'Renata', 40000, 'SH Outspec'),
+('CR 2025L', 'Panasonic Blister', 50000, 'Expired Lithium'),
+('CR 1632', 'Energizer', 1000, 'NG Appereance'),
+('CR 2430', 'Panasonic N', 4000, 'Electrolyte Min')
+;
+
+select * from battery
+
+select batt_type, brand, quantity from battery
+
+update battery set abnormal_history = "IRT 2/10 pcs"
+where id = 10
+
+delete from battery where id = 7
+
+select * from battery 
+where brand like "Energizer"
