@@ -1,0 +1,68 @@
+create table customers(
+idCustomer int not null auto_increment,
+custName varchar(300) not null,
+custCity varchar(300) not null,
+primary key (idCustomer));
+
+insert into customers (custName, custCity)
+values
+('Alpha Corp', 'New York'),
+('Beta Ltd', 'London'),
+('Gamma Inc', 'Sydney'),
+('Delta Corp', 'Madrid');
+
+create table salesman(
+idSales int not null auto_increment,
+salesName varchar (300) not null,
+salesCity varchar (300) not null,
+commision float not null,
+primary key (idSales));
+
+
+insert into salesman (salesName, salesCity, commision)
+values
+('Veruca', 'New York', '0.15'),
+('Bellingham', 'London', '0.12'),
+('Musiala', 'Munchen', '0.10'),
+('Asep', 'Chicago', '0.14');
+
+create table orders(
+orderId int not null auto_increment,
+orderDate varchar(300) not null,
+amount float not null,
+idSales int not null,
+idCustomer int not null,
+primary key (orderId),
+foreign key (idCustomer) references customers(idCustomer),
+foreign key (idSales) references salesman(idSales));
+
+select c.custName, count(o.idCustomer) as total_beli
+from customers c 
+left join orders o on c.idCustomer = o.idCustomer 
+group by c.custName 
+order by total_beli
+
+select c.custName from customers c 
+left join orders o on c.idCustomer = o.idCustomer 
+where o.orderId is null
+
+select c.custName, sum(o.amount) as total_amount 
+from customers c 
+left join orders o on c.idCustomer = o.idCustomer 
+group by c.custName
+order by total_amount
+
+select s.salesName, sum(s.commision) as total_commision
+from salesman s 
+left join orders o on s.idSales = o.idSales
+group by s.SalesName
+order by total_commision desc
+
+select s.salesName, s.commision
+from salesman s
+where s.commision = (select max(commision) from salesman)
+
+select c.custName from customers c 
+left join orders o on c.idCustomer = o.idCustomer 
+group by c.custName
+having count o.idSales > 2;
